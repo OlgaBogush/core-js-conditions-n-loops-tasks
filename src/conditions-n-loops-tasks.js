@@ -69,8 +69,13 @@ function getMaxNumber(a, b, c) {
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  */
-function canQueenCaptureKing(/* queen, king */) {
-  throw new Error('Not implemented');
+function canQueenCaptureKing(queen, king) {
+  const x = Math.abs(queen.x - king.x);
+  const y = Math.abs(queen.y - king.y);
+  if (x === 0 || y === 0 || x === y) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -419,8 +424,28 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  const a = arr;
+  if (arr.length <= 1) {
+    return arr;
+  }
+  const small = [];
+  const large = [];
+  const pivot = arr[0];
+  for (let i = 1; i < arr.length; i += 1) {
+    if (arr[i] < pivot) {
+      small[small.length] = arr[i];
+    } else {
+      large[large.length] = arr[i];
+    }
+  }
+  const sortSmall = sortByAsc(small);
+  const sortLarge = sortByAsc(large);
+  const res = [...sortSmall, pivot, ...sortLarge];
+  for (let i = 0; i < res.length; i += 1) {
+    a[i] = res[i];
+  }
+  return a;
 }
 
 /**
@@ -440,8 +465,26 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  let res = str;
+  let counter = iterations;
+  while (counter) {
+    let a = '';
+    let b = '';
+    for (let i = 0; i < res.length; i += 1) {
+      if (i % 2) {
+        b += res[i];
+      } else {
+        a += res[i];
+      }
+    }
+    res = `${a}${b}`;
+    counter -= 1;
+    if (res === str) {
+      counter = iterations % (iterations - counter);
+    }
+  }
+  return res;
 }
 
 /**
@@ -461,8 +504,47 @@ function shuffleChar(/* str, iterations */) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  const array = [];
+  let num = number;
+
+  while (num > 0) {
+    array.unshift(num % 10);
+    num = Math.floor(num / 10);
+  }
+
+  let i = array.length - 2;
+  while (i >= 0 && array[i] >= array[i + 1]) {
+    i -= 1;
+  }
+  if (i === -1) {
+    return number;
+  }
+
+  let j = array.length - 1;
+  while (array[j] <= array[i]) {
+    j -= 1;
+  }
+
+  const pivot = array[i];
+  array[i] = array[j];
+  array[j] = pivot;
+  let a = i + 1;
+  let b = array.length - 1;
+
+  while (a < b) {
+    const piv = array[a];
+    array[a] = array[b];
+    array[b] = piv;
+    a += 1;
+    b -= 1;
+  }
+
+  let res = 0;
+  for (let k = 0; k < array.length; k += 1) {
+    res = res * 10 + array[k];
+  }
+  return res;
 }
 
 module.exports = {
