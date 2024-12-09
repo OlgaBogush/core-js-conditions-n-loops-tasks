@@ -388,8 +388,21 @@ function getSpiralMatrix(size) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const res = matrix;
+  const array = new Array({ length: matrix.length });
+  for (let i = 0; i < matrix.length; i += 1) {
+    array[i] = new Array({ length: matrix.length });
+    for (let j = 0; j < matrix.length; j += 1) {
+      array[i][j] = matrix[matrix.length - 1 - j][i];
+    }
+  }
+  for (let i = 0; i < matrix.length; i += 1) {
+    for (let j = 0; j < matrix.length; j += 1) {
+      res[i][j] = array[i][j];
+    }
+  }
+  return res;
 }
 
 /**
